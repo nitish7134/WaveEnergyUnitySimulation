@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,11 +10,10 @@ public class GameManager : MonoBehaviour
     public float blendChangeVelocity = 20f;
     public Animator magnetAnim;
     public Animator floaterAnim;
+    public GameObject charge;
+
     private bool startWave = false;
     private bool[] increasing;
-    public GameObject charge;
-    private Mesh skinnedMesh;
-
     private int shapesCount;
     private bool wireCurrentOn = false;
     private bool passToNext = false;
@@ -39,9 +34,9 @@ public class GameManager : MonoBehaviour
             startWave = false;
             water.SetBlendShapeWeight(0, 1f);
         }
-        for(int i = 0; i < shapesCount; i++)
+        for (int i = 0; i < shapesCount; i++)
         {
-           
+
             float currentVal = water.GetBlendShapeWeight(i);
             if (passToNext)
             {
@@ -54,8 +49,9 @@ public class GameManager : MonoBehaviour
                 {
                     currentVal += blendChangeVelocity * Time.deltaTime;
                 }
-                else { 
-                    currentVal -= blendChangeVelocity * Time.deltaTime; 
+                else
+                {
+                    currentVal -= blendChangeVelocity * Time.deltaTime;
                 }
             }
             if (currentVal < 0)
@@ -69,8 +65,8 @@ public class GameManager : MonoBehaviour
                 increasing[i] = false;
                 currentVal = 100;
             }
-        
-            water.SetBlendShapeWeight(i,currentVal);
+
+            water.SetBlendShapeWeight(i, currentVal);
         }
         passToNext = false;
         float checkVal = water.GetBlendShapeWeight(4);
@@ -85,7 +81,8 @@ public class GameManager : MonoBehaviour
             else
                 curScale.y += 0.1f;
             charge.transform.localScale = curScale;
-            if(!wireCurrentOn && curScale.y > 0.15f){
+            if (!wireCurrentOn && curScale.y > 0.15f)
+            {
                 ChangeWireMat();
                 wireCurrentOn = true;
             }
@@ -102,8 +99,9 @@ public class GameManager : MonoBehaviour
 
     private void ChangeWireMat()
     {
-        for (int i= 0; i < wires.Length; i++){
-            wires[i].GetComponent<Renderer>().material = currentInWire; 
+        for (int i = 0; i < wires.Length; i++)
+        {
+            wires[i].GetComponent<Renderer>().material = currentInWire;
         }
     }
 }
